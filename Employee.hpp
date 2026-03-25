@@ -1,63 +1,64 @@
-#ifndef _EMPLOYEE_HPP_
-#define _EMPLOYEE_HPP_
+#ifndef EMPLOYEE_HPP
+#define EMPLOYEE_HPP
 
 #include <iostream>
-#include <Windows.h>
 #include <string>
 #include <format>
+#include <vector>
 
-class Employee
-{
+class Employee {
 public:
-	Employee(std::string name);
+    explicit Employee(std::string name);
+    virtual ~Employee() = default;                    // важно дл€ полиморфизма
 
-	virtual void SetName(std::string name);
-	std::string GetName() const;
+    virtual void SetName(std::string name);
+    std::string GetName() const;
 
-	void SetSalary(double salary);
-	double GetSalary() const;
-
-	double Earning() const;
-	std::string toString() const;
-
-	void SetSales(double sales);
-	void SetCommissionRate(double commissionRate);
+    // „исто виртуальные функции Ч будут переопредел€тьс€ в производных классах
+    virtual double Earning() const = 0;
+    virtual std::string ToString() const = 0;
 
 protected:
-	std::string name{};
+    std::string name;
 };
 
-
-class SalariedEmployee : public Employee
-{
+// ===================================================================
+// SalariedEmployee Ч фиксированна€ зарплата
+// ===================================================================
+class SalariedEmployee : public Employee {
 public:
+    SalariedEmployee(std::string name, double salary);
 
-	SalariedEmployee(std::string name, double salary);
-	void SetSalary(double salary);
-	double GetSalary() const;
+    void SetSalary(double salary);
+    double GetSalary() const;
+
+    double Earning() const override;
+    std::string ToString() const override;
 
 private:
-	std::string name{};
-	double salary = 0.0;
+    double salary = 0.0;
 };
 
-class SalariedCommissionEmployee final : public Employee
-{
+// ===================================================================
+// SalariedCommissionEmployee Ч оклад + процент от продаж
+// ===================================================================
+class SalariedCommissionEmployee final : public SalariedEmployee {
 public:
-	SalariedCommissionEmployee(std::string name, double salary, double sales, double commissionRate);
+    SalariedCommissionEmployee(std::string name, double salary,
+        double sales, double commissionRate);
 
-	void SetSales(double sales);
-	void SetCommissionRate(double commissionRate);
+    void SetSales(double sales);
+    void SetCommissionRate(double commissionRate);
 
-	double GetSales() const;
-	double GetCommisiionRate() const;
+    double GetSales() const;
+    double GetCommissionRate() const;
+
+    double Earning() const override;
+    std::string ToString() const override;
 
 private:
-	double sales = 0.0;
-	double commissionRate = 0.0;
-
+    double sales = 0.0;
+    double commissionRate = 0.0;   // 0.0 .. 1.0
 };
 
-
-
-#endif // !_EMPLOYEE_HPP_
+#endif // EMPLOYEE_HPP
