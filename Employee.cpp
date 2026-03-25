@@ -3,9 +3,9 @@
 #include <format>
 
 
-// ====================== Employee ======================
+
 Employee::Employee(std::string name) : name(std::move(name)) {
-    SetName(this->name);   // проверка длины имени
+    SetName(this->name);  
 }
 
 void Employee::SetName(std::string name) {
@@ -25,7 +25,7 @@ std::string Employee::GetName() const {
     return name;
 }
 
-// ====================== SalariedEmployee ======================
+
 SalariedEmployee::SalariedEmployee(std::string name, double salary)
     : Employee(std::move(name)) {
     SetSalary(salary);
@@ -56,7 +56,7 @@ std::string SalariedEmployee::ToString() const {
     return std::format("Name: {}\nSalary: {:.2f}\n", name, salary);
 }
 
-// ====================== SalariedCommissionEmployee ======================
+
 SalariedCommissionEmployee::SalariedCommissionEmployee(std::string name, double salary,
     double sales, double commissionRate)
     : SalariedEmployee(std::move(name), salary) {

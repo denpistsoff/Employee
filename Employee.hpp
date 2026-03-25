@@ -9,12 +9,11 @@
 class Employee {
 public:
     explicit Employee(std::string name);
-    virtual ~Employee() = default;                    // важно дл€ полиморфизма
+    virtual ~Employee() = default;                  
 
     virtual void SetName(std::string name);
     std::string GetName() const;
 
-    // „исто виртуальные функции Ч будут переопредел€тьс€ в производных классах
     virtual double Earning() const = 0;
     virtual std::string ToString() const = 0;
 
@@ -22,9 +21,7 @@ protected:
     std::string name;
 };
 
-// ===================================================================
-// SalariedEmployee Ч фиксированна€ зарплата
-// ===================================================================
+
 class SalariedEmployee : public Employee {
 public:
     SalariedEmployee(std::string name, double salary);
@@ -39,9 +36,7 @@ private:
     double salary = 0.0;
 };
 
-// ===================================================================
-// SalariedCommissionEmployee Ч оклад + процент от продаж
-// ===================================================================
+
 class SalariedCommissionEmployee final : public SalariedEmployee {
 public:
     SalariedCommissionEmployee(std::string name, double salary,
@@ -58,7 +53,7 @@ public:
 
 private:
     double sales = 0.0;
-    double commissionRate = 0.0;   // 0.0 .. 1.0
+    double commissionRate = 0.0;  
 };
 
 #endif // EMPLOYEE_HPP
